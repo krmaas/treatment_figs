@@ -79,7 +79,8 @@ fs.plot <- ggplot(f.s.d, aes(x=f.pres, y=f.mean, alpha=group, color=group, size=
   ggtitle("Fungal OTU abundance and occurance")+
   theme(legend.position=c(.75,.9) ,legend.background=element_rect(colour="black", fill="white", size=0.3, linetype="solid"),
         legend.key=element_rect(colour="white"))+
-  theme(panel.border=element_rect(fill=NA, color="black", size=.5))
+  theme(panel.border=element_rect(fill=NA, color="black", size=.5))+
+  theme(legend.title=element_blank())
 
 fs.plot
 dev.off()
@@ -109,7 +110,9 @@ bs.plot <- ggplot(b.s.d, aes(x=b.pres, y=b.mean, alpha=group, color=group, size=
   ggtitle("Bacterial OTU abundance and occurance")+
   theme(legend.position=c(.75,.9) ,legend.background=element_rect(colour="black", fill="white", size=0.3, linetype="solid"),
         legend.key=element_rect(colour="white"))+
-  theme(panel.border=element_rect(fill=NA, color="black", size=.5))
+  theme(panel.border=element_rect(fill=NA, color="black", size=.5))+
+  theme(legend.title=element_blank())
+
 
 bs.plot
 dev.off()
