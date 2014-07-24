@@ -24,7 +24,7 @@ bac.phyla.color<-c("#A6CEE3","#7DB4D5", "#5C9FC9","#3A89BD", "#1F78B4", "#B2DF8A
 
 devSVG(file="b.phyla.svg", width=8, height=10)
 
-b.plot <- ggplot(b.p,  aes( y=value, x=factor(hor.om), fill=factor(variable)))+
+b.plot <- ggplot(b.p,  aes( y=value, x=factor(hor.om), fill=factor(variable), order=-as.numeric(variable)))+ #order=- makes the stack the same order as the legend
   geom_bar(position="fill", stat="identity")+
   scale_fill_manual(values=bac.phyla.color)
 b.plot
@@ -39,7 +39,7 @@ fung.phyla.color<-c("#deebf7", "#c6dbef",  "#6baed6", "#4292c6", "#2171b5", "#08
 
 devSVG(file="f.phyla.svg", width=8, height=10)
 
-f.plot <- ggplot(f.p,  aes( y=value, x=factor(hor.om), fill=factor(variable)))+
+f.plot <- ggplot(f.p,  aes( y=value, x=factor(hor.om), fill=factor(variable), order=-as.numeric(variable)))+ #order=- makes the stack the same order as the legend
   geom_bar(position="fill", stat="identity")+
   scale_fill_manual(values=fung.phyla.color)
 #   theme(axis.text.x=element_text(angle=45, hjust=1))
