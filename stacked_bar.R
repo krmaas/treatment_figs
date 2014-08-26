@@ -1,3 +1,4 @@
+setwd("/media/data/R/treatment_fig/")
 library(ggplot2)
 library(RSvgDevice)
 library(reshape)
@@ -22,9 +23,11 @@ str(f.p)
 
 bac.phyla.color<-c("#A6CEE3","#7DB4D5", "#5C9FC9","#3A89BD", "#1F78B4", "#B2DF8A","#79C360", "#33A02C", "#FB9A99", "#E31A1C", "#FDBF6F", "#FF7F00", "#CAB2D6", "#6A3D9A", "#FFFF99","#ededed", "#000000")
 
+b.p2 <- aggregate(value~variable+hor.om, data=b.p, FUN=sum) #ggplot aggregation makes a box for each sample=horizontal lines in bars
+
 devSVG(file="b.phyla.svg", width=8, height=10)
 
-b.plot <- ggplot(b.p,  aes( y=value, x=factor(hor.om), fill=factor(variable), order=-as.numeric(variable)))+ #order=- makes the stack the same order as the legend
+b.plot <- ggplot(b.p2,  aes( y=value, x=factor(hor.om), color=NULL, fill=factor(variable), order=-as.numeric(variable)))+ #order=- makes the stack the same order as the legend
   geom_bar(position="fill", stat="identity")+
   scale_fill_manual(values=bac.phyla.color)
 b.plot
@@ -37,10 +40,12 @@ ggsave(file="b.phyla.pdf", plot=b.plot, width=8, height=10)
 ### fung phyla
 fung.phyla.color<-c("#deebf7", "#c6dbef",  "#6baed6", "#4292c6", "#2171b5", "#08519c", "#08306b",  "#fdae6b", "#fd8d3c", "#f16913", "#d94801", "#8c2d04", "#b2df8a",  "#EdEdEd","#000000")
 
-devSVG(file="f.phyla.svg", width=8, height=10)
+f.p2 <- aggregate(value~variable+hor.om, data=f.p, FUN=sum)
+
+devSVG(file="f.phyla1.svg", width=8, height=10)
 
 f.plot <- ggplot(f.p,  aes( y=value, x=factor(hor.om), fill=factor(variable), order=-as.numeric(variable)))+ #order=- makes the stack the same order as the legend
-  geom_bar(position="fill", stat="identity")+
+  geom_bar(position="fill", stat="identity", linetype=0)+
   scale_fill_manual(values=fung.phyla.color)
 #   theme(axis.text.x=element_text(angle=45, hjust=1))
 f.plot

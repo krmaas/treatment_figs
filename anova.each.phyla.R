@@ -182,14 +182,29 @@ dev.off()
 
 
 
+#### run each phyla in each zone/horizon seperately
 
+f.p$pzh <- paste(f.p$variable, f.p$zone, f.p$horizon, sep=".")
+b.p$pzh <- paste(b.p$variable, b.p$zone, b.p$horizon, sep=".")
+f.p$om <- as.factor(f.p$om)
+b.p$om <- as.factor(b.p$om)
 
+anova.out <- dlply(f.p, .(pzh), function(f.p) aov(value~om, data=f.p))
+juicy.bits <- function(x)
+{c(anova(x)[1,4], anova(x)[1,5])}
+ldply(anova.out, juicy.bits)
+tukey.out <- dlply(f.p, .(pzh), function(f.p) TukeyHSD(aov(value~om, data=f.p)))
+tuk.juice <- function(x)
+   {(x)$om[,c(1,4)]} 
+ldply(tukey.out, tuk.juice)
 
+anova.out <- dlply(b.p, .(pzh), function(b.p) aov(value~om, data=b.p))
+ldply(anova.out, juicy.bits)
 
+tukey.out <- dlply(b.p, .(pzh), function(b.p) TukeyHSD(aov(value~om, data=b.p)))
+b <- ldply(tukey.out, tuk.juice)
 
-
-
-
+write.csv(b, file="b.tukHSD.csv")
 
 
 # b.cov <- aov(coverage~factor(zone)+factor(om), data=b.a.env)
