@@ -22,20 +22,20 @@ f.mean <- (apply(f.otu, 2, sum))/f.pres
 library(ggplot2)
 b <- as.data.frame(cbind(b.mean, b.pres))
 f <- as.data.frame(cbind(f.mean, f.pres))
-# b1 <- ggplot(b, aes(x=b.pres, y=b.mean)) +
-#   geom_point(alpha=1/10, size=3)+
-#   scale_y_log10(name="Mean OTU abundance")+
-#   scale_x_continuous(name="Sample occurance")+
-#   theme_bw()+
-#   ggtitle("Bacterial OTU abundance and occurance")
-# 
-# 
-# f1 <- ggplot(f, aes(x=f.pres, y=f.mean)) +
-#   geom_point(alpha=1/10, size=3)+
-#   scale_y_log10(name="Mean OTU abundance")+
-#   scale_x_continuous(name="Sample occurance")+
-#   theme_bw()+
-#   ggtitle("Fungal OTU abundance and occurance")
+b1 <- ggplot(b, aes(x=b.pres, y=b.mean)) +
+  geom_point(alpha=1/10, size=3)+
+  scale_y_log10(name="Mean OTU abundance")+
+  scale_x_continuous(name="Sample occurance")+
+  theme_bw()+
+  ggtitle("Bacterial OTU abundance and occurance")
+
+
+f1 <- ggplot(f, aes(x=f.pres, y=f.mean)) +
+  geom_point(alpha=1/10, size=3)+
+  scale_y_log10(name="Mean OTU abundance")+
+  scale_x_continuous(name="Sample occurance")+
+  theme_bw()+
+  ggtitle("Fungal OTU abundance and occurance")
 
 #add glm selected otus
 b.sel<-t(read.table(file="../b.big.glm.otu.t", header=T, row.names=1))
@@ -91,13 +91,13 @@ dev.off()
 
 
 
-# b.s$group <- 2
-# b$group <- 1
-# b.s.d <- rbind(b,b.s)
-# b.s.d$group <- factor(b.s.d$group, labels=c("All OTUs", "OTUs responding to Harvesting Treatment"))
-# #check that the groups copied over ok
-# min(b.s.d$group)
-# max(b.s.d$group)
+b.s$group <- 2
+b$group <- 1
+b.s.d <- rbind(b,b.s)
+b.s.d$group <- factor(b.s.d$group, labels=c("All OTUs", "OTUs responding to Harvesting Treatment"))
+#check that the groups copied over ok
+min(b.s.d$group)
+max(b.s.d$group)
 
 devSVG(file="b.freq.abund.svg", width=10, height=8)
 bs.plot <- ggplot(b.s.d, aes(x=b.pres, y=b.mean, alpha=group, color=group, size=group))+

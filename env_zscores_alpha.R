@@ -1,5 +1,8 @@
 ##### I want to compare changes in diversity with changes in environmental variables.  I'm standardizing C, N, CN, and pH 
 #     around the mean and relativatizing shifts in alpha diversity from the reference baseline.  
+#####
+##I'm not totally happly with the plots-I like the thick line around the points showing R2 but can't figure out how to do
+# and jitter the points
 
 
 setwd('/media/data/R')
@@ -319,5 +322,185 @@ devSVG(file="b.N.slopes.svg", height=10, width=8)
 N
 dev.off()
 devSVG(file="b.pH.slopes.svg", height=10, width=8)
+pH
+dev.off()
+
+
+
+
+#########
+
+### Run everything with Richness
+
+
+
+lmfun <- function(x)   {
+  lmfit <- lm(sobs~C, x)
+  output <- data.frame(t(coef(lmfit)), summary(lmfit)$r.square)
+  names(output) <- c("intercept", "slope", "rsq")
+  return(output)
+}
+
+f.C.sobs <- ddply(f.a.z.na, ~zone+horizon+om, lmfun)
+
+
+C <- ggplot(data = f.C.sobs, aes(x=om, y=slope, color=factor(zone)))+
+  facet_grid(horizon ~ .)+
+  scale_color_manual(values=zone.color)+
+  xlab("OM")+ ylab("Slope Richness ~ C")+ labs(title="Fungal relativized diversity, standardized env")+
+  geom_point(aes(alpha=rsq), color="black", size=4.5)+
+  geom_point(size=3)
+
+
+lmfun <- function(x)   {
+  lmfit <- lm(sobs~CN, x)
+  output <- data.frame(t(coef(lmfit)), summary(lmfit)$r.square)
+  names(output) <- c("intercept", "slope", "rsq")
+  return(output)
+}
+
+f.CN.sobs <- ddply(f.a.z.na, ~zone+horizon+om, lmfun)
+
+CN <- ggplot(data = f.CN.sobs, aes(x=om, y=slope, color=factor(zone)))+
+  facet_grid(horizon ~ .)+
+  scale_color_manual(values=zone.color)+
+  xlab("OM")+ ylab("Slope Richness ~ CN")+ labs(title="Fungal relativized diversity, standardized env")+
+  geom_point(aes(alpha=rsq), color="black", size=4.5)+
+  geom_point(size=3)
+
+lmfun <- function(x)   {
+  lmfit <- lm(sobs~N, x)
+  output <- data.frame(t(coef(lmfit)), summary(lmfit)$r.square)
+  names(output) <- c("intercept", "slope", "rsq")
+  return(output)
+}
+
+f.N.sobs <- ddply(f.a.z.na, ~zone+horizon+om, lmfun)
+
+
+N <- ggplot(data = f.N.sobs, aes(x=om, y=slope, color=factor(zone)))+
+  facet_grid(horizon ~ .)+
+  scale_color_manual(values=zone.color)+
+  xlab("OM")+ ylab("Slope Richness ~ N")+ labs(title="Fungal relativized diversity, standardized env")+
+  geom_point(aes(alpha=rsq), color="black", size=4.5)+
+  geom_point(size=3)
+
+lmfun <- function(x)   {
+  lmfit <- lm(sobs~pH_H2O, x)
+  output <- data.frame(t(coef(lmfit)), summary(lmfit)$r.square)
+  names(output) <- c("intercept", "slope", "rsq")
+  return(output)
+}
+
+f.pH.sobs <- ddply(f.a.z.na, ~zone+horizon+om, lmfun)
+
+pH <- ggplot(data = f.pH.sobs, aes(x=om, y=slope, color=factor(zone)))+
+  facet_grid(horizon ~ .)+
+  scale_color_manual(values=zone.color)+
+  xlab("OM")+ ylab("Slope Richness ~ pH")+ labs(title="Fungal relativized diversity, standardized env")+
+  geom_point(aes(alpha=rsq), color="black", size=4.5)+
+  geom_point(size=3)
+pH
+
+devSVG(file="f.C.sobs.slopes.svg", height=10, width=8)
+C
+dev.off()
+devSVG(file="f.CN.sobs.slopes.svg", height=10, width=8)
+CN
+dev.off()
+devSVG(file="f.N.sobs.slopes.svg", height=10, width=8)
+N
+dev.off()
+devSVG(file="f.pH.sobs.slopes.svg", height=10, width=8)
+pH
+dev.off()
+
+
+#can't figure out how to specify x and y in the ddply command, have to replace in function each call
+
+lmfun <- function(x)   {
+  lmfit <- lm(sobs~C, x)
+  output <- data.frame(t(coef(lmfit)), summary(lmfit)$r.square)
+  names(output) <- c("intercept", "slope", "rsq")
+  return(output)
+}
+
+b.C.sobs <- ddply(b.a.z.na, ~zone+horizon+om, lmfun)
+
+
+C <- ggplot(data = b.C.sobs, aes(x=om, y=slope, color=factor(zone)))+
+  facet_grid(horizon ~ .)+
+  scale_color_manual(values=zone.color)+
+  xlab("OM")+ ylab("Slope Richness ~ C")+ labs(title="Bacterial relativized diversity, standardized env")+
+  geom_point(aes(alpha=rsq), color="black", size=4.5)+
+  geom_point(size=3)
+
+
+lmfun <- function(x)   {
+  lmfit <- lm(sobs~CN, x)
+  output <- data.frame(t(coef(lmfit)), summary(lmfit)$r.square)
+  names(output) <- c("intercept", "slope", "rsq")
+  return(output)
+}
+
+b.CN.sobs <- ddply(b.a.z.na, ~zone+horizon+om, lmfun)
+
+CN <- ggplot(data = b.CN.sobs, aes(x=om, y=slope, color=factor(zone)))+
+  facet_grid(horizon ~ .)+
+  scale_color_manual(values=zone.color)+
+  xlab("OM")+ ylab("Slope Richness ~ CN")+ labs(title="Bacterial relativized diversity, standardized env")+
+  geom_point(aes(alpha=rsq), color="black", size=4.5)+
+  geom_point(size=3)
+
+lmfun <- function(x)   {
+  lmfit <- lm(sobs~N, x)
+  output <- data.frame(t(coef(lmfit)), summary(lmfit)$r.square)
+  names(output) <- c("intercept", "slope", "rsq")
+  return(output)
+}
+
+b.N.sobs <- ddply(b.a.z.na, ~zone+horizon+om, lmfun)
+
+
+N <- ggplot(data = b.N.sobs, aes(x=om, y=slope, color=factor(zone)))+
+  facet_grid(horizon ~ .)+
+  scale_color_manual(values=zone.color)+
+  xlab("OM")+ ylab("Slope Richness ~ N")+ labs(title="Bacterial relativized diversity, standardized env")+
+  geom_point(aes(alpha=rsq), color="black", size=4.5)+
+  geom_point(size=3)
+
+lmfun <- function(x)   {
+  lmfit <- lm(sobs~pH_H2O, x)
+  output <- data.frame(t(coef(lmfit)), summary(lmfit)$r.square)
+  names(output) <- c("intercept", "slope", "rsq")
+  return(output)
+}
+
+b.pH.sobs <- ddply(b.a.z.na, ~zone+horizon+om, lmfun)
+
+
+pH <- ggplot(data = b.pH.sobs, aes(x=om, y=slope, color=factor(zone)))+
+  facet_grid(horizon ~ .)+
+  scale_color_manual(values=zone.color)+
+  xlab("OM")+ ylab("Slope Richness ~ pH")+ labs(title="Bacterial relativized diversity, standardized env")+
+  geom_point(aes(alpha=rsq), color="black", size=4.5)+
+  geom_point(size=3)
+
+#source multiplot
+# devSVG(file="b.slopes.svg", width=8, height=10)
+# multiplot(C, N, CN, pH, cols=2)
+# dev.off()
+
+
+devSVG(file="b.C.sobs.slopes.svg", height=10, width=8)
+C
+dev.off()
+devSVG(file="b.CN.sobs.slopes.svg", height=10, width=8)
+CN
+dev.off()
+devSVG(file="b.N.sobs.slopes.svg", height=10, width=8)
+N
+dev.off()
+devSVG(file="b.pH.sobs.slopes.svg", height=10, width=8)
 pH
 dev.off()

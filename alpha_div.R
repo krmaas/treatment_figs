@@ -68,8 +68,8 @@ f.p <- melt(f.a.rel.env, id.vars=c("zone", "om", "horizon"))
 b.p$om <- as.factor(b.p$om)
 f.p$om <- as.factor(f.p$om)
 
-#test normality
-tukey.out <- dlply(b.p[b.p$horizon==1,], .(variable), function(b.p) shapiro.test(b.p$value))
+#test normality whole dataset
+tukey.out <- dlply(b.p[b.p$horizon==1&b.p$variable=="invsimpson",], .(zone), function(b.p) shapiro.test(b.p$value))
 tukey.out
 tukey.out <- dlply(b.p[b.p$horizon==2,], .(variable), function(b.p) shapiro.test(b.p$value))
 tukey.out
@@ -81,8 +81,8 @@ tukey.out
 
 #quick plots to explore shifts from ref
 
-boxplot(b.a.rel.env$invsimpson~b.a.rel.env$om*b.a.rel.env$zone*b.a.rel.env$horizon, las=2)
-boxplot(f.a.rel.env$invsimpson~f.a.rel.env$om*f.a.rel.env$zone*f.a.rel.env$horizon, las=2)
+boxplot(b.a.rel.env$invsimpson~b.a.rel.env$om*b.a.rel.env$zone*b.a.rel.env$horizon, las=2, col=c("darkgreen", "green", "gold", "brown"))
+boxplot(f.a.rel.env$invsimpson~f.a.rel.env$om*f.a.rel.env$zone*f.a.rel.env$horizon, las=2, col=c("darkgreen", "green", "gold", "brown"))
 
 #can't see anything with just points
 # cov <- ggplot(data=b.a.rel.env, aes(x=factor(b.env$om), y=coverage, color=b.env$zone))+
@@ -229,7 +229,7 @@ p.data <- "b.p"
 hor <- "1"
 exlude <- "3"
 
-anova.out <- dlply(p.data[p.data$horizon==hor & b.p$om!=exclude,], .(variable), function(p.data) aov(value~om, data=p.data[p.data$horizon==hor & b.p$om!=exclude,]))
+anova.out <- dlply(p.data[p.data$horizon==hor & p.data$om!=exclude,], .(variable), function(p.data) aov(value~om, data=p.data[p.data$horizon==hor & b.p$om!=exclude,]))
 juicy.bits <- function(x)
 {c(anova(x)[1,4], anova(x)[1,5])} #don't understand why this works, got it from http://oardc.osu.edu/culman/wp-content/uploads/2014/05/Reshape-and-Plyr.txt
 ldply(anova.out, juicy.bits)
@@ -430,3 +430,34 @@ sem(f.a$invsimpson)/mean(f.a$invsimpson)
 sem(b.a$invsimpson)/mean(b.a$invsimpson)
 
 
+
+#examine invsimpson in each ecozone
+anova.out <- dlply(b.p[b.p$horizon==1 & b.p$variable=="invsimpson",], .(zone), function(b.p) aov(value~om, data=b.p[b.p$horizon==1 & b.p$variable=="invsimpson",]))
+ldply(anova.out, juicy.bits)
+
+tukey.out <- dlply(b.p[b.p$variable=="invsimpson" & b.p$horizon==1,], .(zone), function(b.p) TukeyHSD(aov(value~om, data=b.p[b.p$horizon==1 & b.p$variable=="invsimpson",])))
+tuk.juice <- function(x)
+  + {(x)$om[,c(1,4)]} 
+ldply(tukey.out, tuk.juice)
+
+anova.out <- dlply(f.p[f.p$variable=="invsimpson" & f.p$horizon==1,], .(zone), function(f.p) aov(value~om, data=f.p[f.p$variable=="invsimpson" & f.p$horizon==1,]))
+ldply(anova.out, juicy.bits)
+tukey.out <- dlply(f.p[f.p$variable=="invsimpson" & f.p$horizon==1,], .(zone), function(f.p) TukeyHSD(aov(value~om, data=f.p[f.p$horizon==1 & f.p$variable=="invsimpson",])))
+tuk.juice <- function(x)
+  + {(x)$om[,c(1,4)]} 
+ldply(tukey.out, tuk.juice)
+
+anova.out <- dlply(b.p[b.p$horizon==2 & b.p$variable=="invsimpson",], .(zone), function(b.p) aov(value~om, data=b.p[b.p$horizon==2 & b.p$variable=="invsimpson",]))
+ldply(anova.out, juicy.bits)
+
+tukey.out <- dlply(b.p[b.p$variable=="invsimpson" & b.p$horizon==2,], .(zone), function(b.p) TukeyHSD(aov(value~om, data=b.p[b.p$horizon==2 & b.p$variable=="invsimpson",])))
+tuk.juice <- function(x)
+  + {(x)$om[,c(1,4)]} 
+ldply(tukey.out, tuk.juice)
+
+anova.out <- dlply(f.p[f.p$variable=="invsimpson" & f.p$horizon==2,], .(zone), function(f.p) aov(value~om, data=f.p[f.p$variable=="invsimpson" & f.p$horizon==2,]))
+ldply(anova.out, juicy.bits)
+tukey.out <- dlply(f.p[f.p$variable=="invsimpson" & f.p$horizon==2,], .(zone), function(f.p) TukeyHSD(aov(value~om, data=f.p[f.p$horizon==2 & f.p$variable=="invsimpson",])))
+tuk.juice <- function(x)
+  + {(x)$om[,c(1,4)]} 
+ldply(tukey.out, tuk.juice)
