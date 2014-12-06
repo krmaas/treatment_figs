@@ -1,10 +1,15 @@
+setwd('/media/data/R/treatment_fig')
+library(labdsv)
+library(ggplot2)
+
+
 #import the whole datasets
 f.otu<-t(read.table(file="../fung.all.mar14.hil.0.945.subsample.shared1.t.csv", header=T, row.names=1))
 b.otu<-t(read.table(file="../bac_final.an.0.03.subsample.shared", header=T, row.names=1))
 
 b.env <- read.table(file="../bac_env.txt", header=T, row.names=1)
 f.env <- read.table(file="../Fung_env.csv", header=T, row.names=1)
-library(labdsv)
+
 
 #plot frequency abundance, quick and dirty can't control anything about the plots.  prettied up in inscape
 #abuocc(f.otu)
@@ -19,7 +24,7 @@ plot(sort(f.pres))
 b.mean <- (apply(b.otu, 2, sum))/b.pres
 f.mean <- (apply(f.otu, 2, sum))/f.pres
 
-library(ggplot2)
+
 b <- as.data.frame(cbind(b.mean, b.pres))
 f <- as.data.frame(cbind(f.mean, f.pres))
 b1 <- ggplot(b, aes(x=b.pres, y=b.mean)) +

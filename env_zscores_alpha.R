@@ -13,7 +13,7 @@ library(reshape2)
 library(plyr)
 library(dplyr)
 
-zone.color <- c("#A6CEE3", "#1F78B4","#FB9A99","#B2DF8A",   "#33A02C", "#E31A1C")
+zone.color <- c("bIDF"= "#A6CEE3", "bSBS"= "#1F78B4", "MD"= "#FB9A99","oBS"= "#B2DF8A", "oJP" = "#33A02C", "TX" ="#E31A1C")
 theme_set(theme_bw())
 
 #read in and sort env data

@@ -21,7 +21,7 @@ f.p<- melt(f.phy, id.vars=c("zone", "om", "horizon", "site", "hor.om"))
 str(b.p)
 str(f.p)
 
-bac.phyla.color<-c("#A6CEE3","#7DB4D5", "#5C9FC9","#3A89BD", "#1F78B4", "#B2DF8A","#79C360", "#33A02C", "#FB9A99", "#E31A1C", "#FDBF6F", "#FF7F00", "#CAB2D6", "#6A3D9A", "#FFFF99","#ededed", "#000000")
+bac.phyla.color<-c("Alphaproteobacteria" = "#A6CEE3", "Betaproteobacteria" = "#7DB4D5", "Deltaproteobacteria" = "#5C9FC9", "Gammaproteobacteria" = "#3A89BD", "Proteobacteria" = "#1F78B4", "Actinobacteria" = "#B2DF8A", "Acidobacteria" = "#79C360", "Bacteroidetes" = "#33A02C", "Firmicutes" = "#FB9A99", "Chloroflexi" = "#E31A1C", "Cyanobacteria" = "#FDBF6F", "Gemmatimonadetes" = "#FF7F00", "Planctomycetes" = "#CAB2D6", "Verrucomicrobia" = "#6A3D9A", "Nitrospirae" = "#FFFF99", "other" = "#ededed", "unclassified" = "#000000")
 
 b.p2 <- aggregate(value~variable+hor.om, data=b.p, FUN=sum) #ggplot aggregation makes a box for each sample=horizontal lines in bars
 
@@ -38,7 +38,7 @@ ggsave(file="b.phyla.pdf", plot=b.plot, width=8, height=10)
 
 
 ### fung phyla
-fung.phyla.color<-c("#deebf7", "#c6dbef",  "#6baed6", "#4292c6", "#2171b5", "#08519c", "#08306b",  "#fdae6b", "#fd8d3c", "#f16913", "#d94801", "#8c2d04", "#b2df8a",  "#EdEdEd","#000000")
+fung.phyla.color<-c("Asc_Dothideomycetes" = "#deebf7", "Asc_Eurotiomycetes" = "#c6dbef", "Asc_Leotiomycetes" =  "#6baed6", "Asc_Pezizomycetes" = "#4292c6", "Asc_Saccharomycetes" = "#2171b5", "Asc_Sordariomycetes" = "#08519c", "other_Ascomycota" = "#08306b", "Bas_Agaricomycetes" = "#fdae6b", "Bas_Microbotryomycetes" = "#fd8d3c", "Bas_Tremellomycetes" = "#f16913", "Bas_Wallemiomycetes" = "#d94801", "other_Basidiomycota" = "#8c2d04", "Zygomycota" = "#b2df8a", "Unclassified" =  "#EdEdEd", "Other_Fungi" = "#000000")
 
 f.p2 <- aggregate(value~variable+hor.om, data=f.p, FUN=sum)
 
