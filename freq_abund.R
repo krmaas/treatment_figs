@@ -4,8 +4,8 @@ library(ggplot2)
 
 
 #import the whole datasets
-f.otu<-t(read.table(file="../fung.all.mar14.hil.0.945.subsample.shared1.t.csv", header=T, row.names=1))
-b.otu<-t(read.table(file="../bac_final.an.0.03.subsample.shared", header=T, row.names=1))
+f.otu<-t(read.table(file="fung.all.mar14.hil.0.945.subsample.shared1.t.csv", header=T, row.names=1))
+b.otu<-t(read.table(file="bac_final.an.0.03.subsample.shared", header=T, row.names=1))
 
 b.env <- read.table(file="../bac_env.txt", header=T, row.names=1)
 f.env <- read.table(file="../Fung_env.csv", header=T, row.names=1)
@@ -45,7 +45,7 @@ f1 <- ggplot(f, aes(x=f.pres, y=f.mean)) +
 #add glm selected otus
 b.sel<-t(read.table(file="../b.big.glm.otu.t", header=T, row.names=1))
 f.sel <- t(read.table(file="../f.glm.otu.t", header=T, row.names=1))
-
+f.sel <- f.glm.otu
 b.pres<-apply(b.sel>0,2,sum)
 f.pres<-apply(f.sel>0,2,sum)
 
@@ -68,7 +68,7 @@ f.s <- as.data.frame(cbind(f.mean, f.pres))
 f.s$group <- 2
 f$group <- 1
 f.s.d <- rbind(f,f.s)
-f.s.d$group <- factor(f.s.d$group, labels=c("All OTUs", "OTUs responding to Harvesting Treatment"))
+f.s.d$group <- factor(f.s.d$group, labels=c("All OTUs ( n = 13,040 )", "OTUs responding to Harvesting Treatment ( n = 37 )"))
 str(f.s.d)
 
 
@@ -89,7 +89,7 @@ fs.plot <- ggplot(f.s.d, aes(x=f.pres, y=f.mean, alpha=group, color=group, size=
 
 fs.plot
 dev.off()
-
+ggsave(file="f.freq.abund.pdf", width=10, height=8)
 
 
 
@@ -99,7 +99,7 @@ dev.off()
 b.s$group <- 2
 b$group <- 1
 b.s.d <- rbind(b,b.s)
-b.s.d$group <- factor(b.s.d$group, labels=c("All OTUs", "OTUs responding to Harvesting Treatment"))
+b.s.d$group <- factor(b.s.d$group, labels=c("All OTUs ( n = 136,455 )", "OTUs responding to Harvesting Treatment ( n = 68 )"))
 #check that the groups copied over ok
 min(b.s.d$group)
 max(b.s.d$group)

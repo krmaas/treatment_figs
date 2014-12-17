@@ -1,8 +1,11 @@
+setwd("/media/data/R/treatment_fig/")
+
 library(ggplot2)
 library(RSvgDevice)
 library(reshape2)
 library(plyr)
 
+theme_set(theme_bw(16))
 
 #read in Tukey HSD sig treatment pairs
 tuk <- read.table(file="tuk.zone.phyla.csv", header=T)
@@ -20,8 +23,6 @@ tuk.pos <- tuk[tuk$diff>0,]
 tuk.neg <- tuk[tuk$diff<0,]
 
 
-theme_set(theme_bw(16))
-# 
 phyla.color <- c("Asc_Dothideomycetes" = "#deebf7", "Asc_Eurotiomycetes" = "#c6dbef", "Asc_Leotiomycetes" =  "#6baed6", 
                  "Asc_Pezizomycetes" = "#4292c6", "Asc_Saccharomycetes" = "#2171b5", "Asc_Sordariomycetes" = "#08519c", 
                  "Asc_other" = "#08306b", "Bas_Agaricomycetes" = "#fdae6b", "Bas_Microbotryomycetes" = "#fd8d3c", 
@@ -47,8 +48,9 @@ p <- ggplot()+
 p  
 
 
-devSVG(file="phyla.tuk.horizontal.svg", width=10, height=8)
-
+devSVG(file="phyla.tuk.horizontal.svg", width=10, height=10)
+p
+dev.off()
   
 # p <- ggplot()+
 #   geom_hline(yintercept=0, colour="grey")+
@@ -64,7 +66,7 @@ devSVG(file="phyla.tuk.horizontal.svg", width=10, height=8)
 
 dev.off()
 
-ggsave(file="phyla.tuk.horizontal.pdf", plot=p, width=10, height=8)
+ggsave(file="xphyla.tuk.horizontal.pdf", plot=p, width=10, height=8)
 
 
 
