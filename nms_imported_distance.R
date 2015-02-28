@@ -1,6 +1,7 @@
 setwd("/media/data/final_bac/full")
 library(vegan)
 library(ecodist)
+library(ade4)
 
 b_bc_d <- "bac_final.an.braycurtis.0.09.square.ave.dist"
 b_bc09_ave <-data.matrix(read.table(b_bc_d, row.names=1, header=T))
@@ -18,7 +19,6 @@ scree09th <- nmds(b_th09ave, mindim=1, maxdim=6, nits=10)
 stress09th <- scree09th$stress
 plot(stress09th)
 
-library(vegan)
 
 #nms 3 axes
 nms09 <-metaMDS(b_th09_ave, k=3, trymin=50, trymax=250, wascores=FALSE)
